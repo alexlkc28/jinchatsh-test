@@ -23,7 +23,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
             #     ),
             #     sortable=True,
             # ),
-            self._field_column('self.move_id.x_studio_source_order', name=_("SO no.")),
+            self._field_column('move_id.x_studio_source_order', name=_("SO no.")),
         ]
 
         return columns
