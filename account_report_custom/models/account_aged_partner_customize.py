@@ -14,7 +14,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     def _get_column_details(self, options):
         columns = super()._get_column_details(options)
 
-        columns[4:] = [
+        columns[4:1] = [
             self._custom_column(  # Avoid doing twice the sub-select in the view
                 name=_('SO no.'),
                 classes=['string'],
@@ -24,7 +24,5 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 sortable=True,
             )
         ]
-
-        _logger.info(columns)
 
         return columns
