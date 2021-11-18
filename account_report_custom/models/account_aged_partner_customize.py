@@ -2,6 +2,10 @@
 
 from odoo import models, api, _
 
+import logging
+
+_logger = logging.getLogger(__name__)
+
 
 class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     _inherit = "account.aged.partner"
@@ -15,10 +19,12 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 name=_('SO no.'),
                 classes=['string'],
                 getter=(
-                    lambda v: v['move_id'].x_studio_source_order
+                    lambda v: self.x_studio_source_order
                 ),
                 sortable=True,
             )
         ]
+
+        _logger.info(columns)
 
         return columns
