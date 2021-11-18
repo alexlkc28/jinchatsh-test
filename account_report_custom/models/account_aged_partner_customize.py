@@ -17,9 +17,9 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
         columns[4:1] = [
             self._custom_column(  # Avoid doing twice the sub-select in the view
                 name=_('SO no.'),
-                classes=['string'],
+                classes=['text-center'],
                 getter=(
-                    lambda v: self.move_id.x_studio_source_order
+                    lambda v: self.move_id.x_studio_source_order.name
                 ),
                 sortable=True,
             )
