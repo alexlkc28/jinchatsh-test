@@ -15,14 +15,15 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
         columns = super()._get_column_details(options)
 
         columns[4:1] = [
-            self._custom_column(  # Avoid doing twice the sub-select in the view
-                name=_('SO no.'),
-                classes=['text-center'],
-                getter=(
-                    lambda v: self.move_id.x_studio_source_order.name
-                ),
-                sortable=True,
-            )
+            # self._custom_column(  # Avoid doing twice the sub-select in the view
+            #     name=_('SO no.'),
+            #     classes=['text-center'],
+            #     getter=(
+            #         lambda v: self.move_id.x_studio_source_order.name
+            #     ),
+            #     sortable=True,
+            # ),
+            self._field_column('self.move_id.x_studio_source_order', name=_("SO no.")),
         ]
 
         return columns
