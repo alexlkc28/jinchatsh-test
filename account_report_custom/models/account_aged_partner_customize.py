@@ -19,7 +19,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 name=_('SO no.'),
                 classes=['string'],
                 getter=(
-                    lambda v: self.x_studio_source_order
+                    lambda v: self.move_id.x_studio_source_order
                 ),
                 sortable=True,
             )
