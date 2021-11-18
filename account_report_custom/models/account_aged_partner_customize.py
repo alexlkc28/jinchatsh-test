@@ -3,7 +3,7 @@
 from odoo import models, api, _
 
 
-class ReportAccountAgedPartnerCustomize(models.Model):
+class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     _inherit = "account.aged.partner"
 
     @api.model
