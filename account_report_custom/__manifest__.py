@@ -7,7 +7,7 @@
 	'summary': 'Account Customize Report',
 	'description': """Account Customize Report""",
 	'license': "OPL-1",
-	'depends': ['account'],
+	'depends': ['account', 'account_reports'],
 	'installable': True,
 	'auto_install': False,
 	'category': 'Accounting',
