@@ -29,7 +29,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     move.move_type AS move_type,
                     move.name AS move_name,
                     move.ref AS move_ref,
-                    order.name AS order_no,
+                    so.name AS order_no,
                     account.code || ' ' || account.name AS account_name,
                     account.code AS account_code,""" + ','.join([("""
                     CASE WHEN period_table.period_index = {i}
@@ -39,7 +39,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     ELSE 0 END AS period{i}""").format(i=i) for i in range(6)]) + """
                 FROM account_move_line
                 JOIN account_move move ON account_move_line.move_id = move.id
-                LEFT JOIN sale_order order ON move.x_studio_source_order = order.id
+                LEFT JOIN sale_order so ON move.x_studio_source_order = so.id
                 JOIN account_journal journal ON journal.id = account_move_line.journal_id
                 JOIN account_account account ON account.id = account_move_line.account_id
                 JOIN res_partner partner ON partner.id = account_move_line.partner_id
