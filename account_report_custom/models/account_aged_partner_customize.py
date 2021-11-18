@@ -11,6 +11,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     _inherit = "account.aged.partner"
 
     order_no = fields.Char(group_operator='max')
+    currency_rate = fields.Float(group_operator='max')
 
     @api.model
     def _get_sql(self):
@@ -30,6 +31,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     move.name AS move_name,
                     move.ref AS move_ref,
                     so.name AS order_no,
+                    currency_table.rate AS currency_rate,
                     account.code || ' ' || account.name AS account_name,
                     account.code AS account_code,""" + ','.join([("""
                     CASE WHEN period_table.period_index = {i}
@@ -88,8 +90,23 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     def _get_column_details(self, options):
         columns = super()._get_column_details(options)
 
-        columns[4:1] = [
+        columns[5:5] = [
             self._field_column('order_no', name=_("Order No."), ellipsis=True),
+        ]
+
+        columns[4:4] = [
+            self._field_column('currency_rate', name=_("Rate"), ellipsis=True),
+        ]
+
+        columns[5:5] = [
+            self._custom_column(  # Avoid doing twice the sub-select in the view
+                name=_('Original Currency Amount'),
+                classes=['number'],
+                formatter=self.format_value,
+                getter=(
+                    lambda v: v['amount_currency'] * v['currency_rate']),
+                sortable=True,
+            ),
         ]
 
         return columns
