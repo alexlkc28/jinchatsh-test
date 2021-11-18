@@ -39,7 +39,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     ELSE 0 END AS period{i}""").format(i=i) for i in range(6)]) + """
                 FROM account_move_line
                 JOIN account_move move ON account_move_line.move_id = move.id
-                LEFT JOIN sale_order order ON order.x_studio_source_order = move.id
+                LEFT JOIN sale_order order ON move.x_studio_source_order = order.id
                 JOIN account_journal journal ON journal.id = account_move_line.journal_id
                 JOIN account_account account ON account.id = account_move_line.account_id
                 JOIN res_partner partner ON partner.id = account_move_line.partner_id
