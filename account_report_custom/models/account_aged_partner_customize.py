@@ -109,6 +109,6 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
             ),
         ]
 
-        _logger.info(self._fields)
+        _logger.info(self._fields['currency_rate'])
 
         return columns
