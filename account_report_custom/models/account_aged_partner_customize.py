@@ -95,7 +95,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
         ]
 
         columns[4:4] = [
-            self._field_column('currency_rate', name=_("Rate"), ellipsis=True, blank_if_zero=True),
+            self._field_column('currency_rate', name=_("Rate"), ellipsis=False),
         ]
 
         columns[5:5] = [
@@ -108,7 +108,5 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 sortable=True,
             ),
         ]
-
-        _logger.info(self._fields['currency_rate'])
 
         return columns
