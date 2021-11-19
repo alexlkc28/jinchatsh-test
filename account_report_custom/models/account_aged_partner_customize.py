@@ -16,7 +16,6 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     @api.model
     def _get_sql(self):
         options = self.env.context['report_options']
-        _logger.info(self._get_move_line_fields('account_move_line'))
         query = ("""
                 SELECT
                     {move_line_fields},
@@ -32,7 +31,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     move.name AS move_name,
                     move.ref AS move_ref,
                     so.name AS order_no,
-                    currency_table.rate AS currency_rate,
+                    res_currency.rate AS currency_rate,
                     account.code || ' ' || account.name AS account_name,
                     account.code AS account_code,""" + ','.join([("""
                     CASE WHEN period_table.period_index = {i}
@@ -52,6 +51,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     AND trust_property.company_id = account_move_line.company_id
                 )
                 JOIN {currency_table} ON currency_table.company_id = account_move_line.company_id
+                JOIN res_currency ON res_currency.id = account_move_line.currency_id
                 LEFT JOIN LATERAL (
                     SELECT part.amount, part.debit_move_id
                     FROM account_partial_reconcile part
