@@ -109,4 +109,6 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
             ),
         ]
 
+        _logger.info(self._fields)
+
         return columns
