@@ -95,22 +95,14 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
         ]
 
         columns[4:4] = [
-            #self._field_column('currency_rate', name=_("Rate"), ellipsis=False),
-            self._custom_column(  # Avoid doing twice the sub-select in the view
-                name=_('Rate'),
-                classes=['text-center'],
-                formatter=None,
-                getter=(
-                    lambda v: v['currency_rate']),
-                sortable=True,
-            ),
+            self._field_column('currency_rate', name=_("Rate"), ellipsis=True),
         ]
 
         columns[5:5] = [
             self._custom_column(  # Avoid doing twice the sub-select in the view
                 name=_('Original Currency Amount'),
-                classes=['text-center'],
-                formatter=None,
+                classes=['number'],
+                formatter=self.format_value,
                 getter=(
                     lambda v: v['amount_currency'] * v['currency_rate']),
                 sortable=True,
