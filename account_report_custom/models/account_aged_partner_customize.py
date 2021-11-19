@@ -16,6 +16,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     @api.model
     def _get_sql(self):
         options = self.env.context['report_options']
+        _logger.info(self._get_move_line_fields('account_move_line'))
         query = ("""
                 SELECT
                     {move_line_fields},
