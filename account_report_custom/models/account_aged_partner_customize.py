@@ -51,7 +51,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     AND trust_property.company_id = account_move_line.company_id
                 )
                 JOIN {currency_table} ON currency_table.company_id = account_move_line.company_id
-                JOIN res_currency_rate curr_rate ON curr_rate.currency_id = move.currency_id
+                LEFT JOIN res_currency_rate curr_rate ON curr_rate.currency_id = move.currency_id
                 LEFT JOIN LATERAL (
                     SELECT part.amount, part.debit_move_id
                     FROM account_partial_reconcile part
@@ -105,7 +105,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 classes=['number'],
                 formatter=self.format_value,
                 getter=(
-                    lambda v: v['amount_currency'] * v['currency_rate']),
+                    lambda v: v['amount_currency'] * (v['currency_rate'] or 1)),
                 sortable=True,
             ),
         ]
