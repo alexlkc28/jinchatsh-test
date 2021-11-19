@@ -16,7 +16,6 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     @api.model
     def _get_sql(self):
         options = self.env.context['report_options']
-        _logger.info(self.env['res.currency']._get_query_currency_table(options))
         query = ("""
                 SELECT
                     {move_line_fields},
@@ -32,7 +31,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     move.name AS move_name,
                     move.ref AS move_ref,
                     so.name AS order_no,
-                    move_currency.rate AS currency_rate,
+                    curr_rate.rate AS currency_rate,
                     account.code || ' ' || account.name AS account_name,
                     account.code AS account_code,""" + ','.join([("""
                     CASE WHEN period_table.period_index = {i}
@@ -52,7 +51,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     AND trust_property.company_id = account_move_line.company_id
                 )
                 JOIN {currency_table} ON currency_table.company_id = account_move_line.company_id
-                JOIN res_currency move_currency ON move_currency.id = move.currency_id
+                JOIN res_currency_rate curr_rate ON curr_rate.currency_id = move.currency_id
                 LEFT JOIN LATERAL (
                     SELECT part.amount, part.debit_move_id
                     FROM account_partial_reconcile part
@@ -74,7 +73,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 WHERE account.internal_type = %(account_type)s
                 AND account.exclude_from_aged_reports IS NOT TRUE
                 GROUP BY account_move_line.id, partner.id, trust_property.id, journal.id, move.id, so.id, account.id,
-                         period_table.period_index, currency_table.rate, currency_table.precision, move_currency.rate
+                         period_table.period_index, currency_table.rate, currency_table.precision, curr_rate.rate
                 HAVING ROUND(account_move_line.balance - COALESCE(SUM(part_debit.amount), 0) + COALESCE(SUM(part_credit.amount), 0), currency_table.precision) != 0
             """).format(
             move_line_fields=self._get_move_line_fields('account_move_line'),
