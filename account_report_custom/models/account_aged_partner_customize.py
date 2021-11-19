@@ -105,7 +105,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 classes=['number'],
                 formatter=self.format_value,
                 getter=(
-                    lambda v: v['amount_currency'] * (v['currency_rate'] or 1)),
+                    lambda v: v['amount_currency'] / (v['currency_rate'] or 1)),
                 sortable=True,
             ),
         ]
