@@ -51,7 +51,13 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     AND trust_property.company_id = account_move_line.company_id
                 )
                 JOIN {currency_table} ON currency_table.company_id = account_move_line.company_id
-                LEFT OUTER JOIN res_currency_rate curr_rate ON curr_rate.currency_id = move.currency_id
+                LEFT JOIN LATERAL (
+                    SELECT cr_c1.currency_id, cr_c1.rate
+                    FROM res_currency_rate cr_c1
+                    WHERE cr_c1.currency_id = move.currency_id
+                    ORDER BY cr_c1.name DESC 
+                    LIMIT 1
+                ) curr_rate ON move.currency_id = curr_rate.currency_id
                 LEFT JOIN LATERAL (
                     SELECT part.amount, part.debit_move_id
                     FROM account_partial_reconcile part
