@@ -37,7 +37,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     CASE WHEN period_table.period_index = {i}
                     THEN %(sign)s * ROUND((
                         account_move_line.balance - COALESCE(SUM(part_debit.amount), 0) + COALESCE(SUM(part_credit.amount), 0)
-                    ) * (CASE WHEN curr_rate.rate THEN curr_rate.rate ELSE currency_table.rate END), currency_table.precision)
+                    ) * (CASE WHEN curr_rate.rate > 0 THEN curr_rate.rate ELSE currency_table.rate END), currency_table.precision)
                     ELSE 0 END AS period{i}""").format(i=i) for i in range(6)]) + """
                 FROM account_move_line
                 JOIN account_move move ON account_move_line.move_id = move.id
