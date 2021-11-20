@@ -16,8 +16,6 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
     @api.model
     def _get_sql(self):
         options = self.env.context['report_options']
-        _logger.info(options)
-        _logger.info(self.env['res.currency']._get_query_currency_table(options))
         query = ("""
                 SELECT
                     {move_line_fields},
