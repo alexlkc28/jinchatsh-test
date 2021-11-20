@@ -37,7 +37,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     CASE WHEN period_table.period_index = {i}
                     THEN %(sign)s * ROUND((
                         account_move_line.balance - COALESCE(SUM(part_debit.amount), 0) + COALESCE(SUM(part_credit.amount), 0)
-                    ) * (CASE WHEN curr_rate.rate > 0 THEN curr_rate.rate ELSE currency_table.rate END), currency_table.precision)
+                    ) * (CASE WHEN curr_rate.inverse_company_rate > 0 THEN curr_rate.inverse_company_rate ELSE currency_table.rate END), currency_table.precision)
                     ELSE 0 END AS period{i}""").format(i=i) for i in range(6)]) + """
                 FROM account_move_line
                 JOIN account_move move ON account_move_line.move_id = move.id
@@ -52,7 +52,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                 )
                 JOIN {currency_table} ON currency_table.company_id = account_move_line.company_id
                 LEFT JOIN LATERAL (
-                    SELECT cr_c1.currency_id, cr_c1.rate
+                    SELECT cr_c1.currency_id, cr_c1.rate, cr_c1.inverse_company_rate
                     FROM res_currency_rate cr_c1
                     WHERE cr_c1.currency_id = move.currency_id
                     ORDER BY cr_c1.name DESC 
