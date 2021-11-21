@@ -59,7 +59,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     LIMIT 1
                 ) curr_rate ON move.currency_id = curr_rate.currency_id
                 LEFT JOIN LATERAL (
-                    SELECT part.debit_amount_currency AS amount, part.debit_move_id
+                    SELECT part.amount, part.debit_move_id
                     FROM account_partial_reconcile part
                     WHERE part.max_date <= %(date)s
                 ) part_debit ON part_debit.debit_move_id = account_move_line.id
