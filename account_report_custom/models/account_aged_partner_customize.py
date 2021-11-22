@@ -86,7 +86,6 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
             currency_table=self.env['res.currency']._get_query_currency_table(options),
             period_table=self._get_query_period_table(options),
         )
-        _logger.info(query)
         params = {
             'account_type': options['filter_account_type'],
             'sign': 1 if options['filter_account_type'] == 'receivable' else -1,
