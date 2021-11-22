@@ -35,9 +35,10 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     account.code || ' ' || account.name AS account_name,
                     account.code AS account_code,""" + ','.join([("""
                     CASE WHEN period_table.period_index = {i}
-                    THEN %(sign)s * ROUND(
+                    THEN %(sign)s * ROUND((
                         account_move_line.amount_currency
-                    ) * (CASE WHEN curr_rate.rate > 0 THEN (1/curr_rate.rate) ELSE currency_table.rate END), currency_table.precision)
+                    ) * (CASE WHEN curr_rate.rate > 0 THEN (1/curr_rate.rate) ELSE currency_table.rate END), 
+                    currency_table.precision)
                     ELSE 0 END AS period{i}""").format(i=i) for i in range(6)]) + """
                 FROM account_move_line
                 JOIN account_move move ON account_move_line.move_id = move.id
