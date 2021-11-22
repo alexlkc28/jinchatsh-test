@@ -36,7 +36,10 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     account.code AS account_code,""" + ','.join([("""
                     CASE WHEN period_table.period_index = {i}
                     THEN %(sign)s * ROUND((
-                        account_move_line.balance - COALESCE(SUM(part_debit.amount), 0) + COALESCE(SUM(part_credit.amount), 0)
+                        CASE WHEN curr_rate.rate > 0
+                        THEN (account_move_line.amount_currency/curr_rate.rate - COALESCE(SUM(part_debit.amount), 0) + COALESCE(SUM(part_credit.amount), 0))
+                        ELSE (account_move_line.balance - COALESCE(SUM(part_debit.amount), 0) + COALESCE(SUM(part_credit.amount), 0))
+                        END
                     ) * currency_table.rate, currency_table.precision)
                     ELSE 0 END AS period{i}""").format(i=i) for i in range(6)]) + """
                 FROM account_move_line
