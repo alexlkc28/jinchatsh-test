@@ -9,6 +9,7 @@
 	'license': "OPL-1",
 	'depends': ['account', 'account_reports', 'sale'],
 	'data': [
+		'security/ir.model.access.csv',
 		'views/report_financial.xml',
 	],
 	'installable': True,
