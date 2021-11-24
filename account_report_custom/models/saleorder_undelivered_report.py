@@ -46,7 +46,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 sale_order_line.price_unit AS unit_price,
                 sale_order_line.price_total AS amount_currency,
                 
-                WHEN CASE curr_rate.rate > 0
+                CASE WHEN curr_rate.rate > 0
                     THEN (sale_order_line.price_total/curr_rate.rate)
                     ELSE sale_order_line.price_total END AS amount
                 
