@@ -48,7 +48,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 CASE WHEN curr_rate.rate > 0
                     THEN (sale_order_line.price_total/curr_rate.rate)
-                    ELSE sale_order_line.price_total END AS amount
+                    ELSE sale_order_line.price_total END AS amount,
                 
                 (sale_order_line.product_uom_qty - sale_order_line.qty_delivered) AS outstanding_quantity,
                 
