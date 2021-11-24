@@ -52,7 +52,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 (sale_order_line.product_uom_qty - sale_order_line.qty_delivered) AS outstanding_quantity,
                 
-                prod.code AS product_code,
+                prod.default_code AS product_code,
                 
                 so.name AS order_no,
                 so.partner_id AS partner_id,
