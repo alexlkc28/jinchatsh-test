@@ -8,6 +8,9 @@
 	'description': """Account Customize Report""",
 	'license': "OPL-1",
 	'depends': ['account', 'account_reports', 'sale'],
+	'data': [
+		'views/report_financial.xml',
+	],
 	'installable': True,
 	'auto_install': False,
 	'category': 'Accounting',
