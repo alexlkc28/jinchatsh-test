@@ -77,7 +77,8 @@ class ReportSaleOrderUndelivered(models.Model):
                     LIMIT 1
                 ) curr_rate ON so.currency_id = curr_rate.currency_id           
             GROUP BY sale_order_line.id, prod.default_code, so.name, so.partner_id, so.currency_id, 
-                curr_rate.rate, curr_rate.name, curr_rate.symbol
+                curr_rate.rate, curr_rate.name, curr_rate.symbol,
+                customer.display_name, customer.name
         """)
 
         params = {
