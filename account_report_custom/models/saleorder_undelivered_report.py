@@ -69,7 +69,7 @@ class ReportSaleOrderUndelivered(models.Model):
             JOIN res_partner customer ON so.partner_id = customer.id
             JOIN product_product prod ON sale_order_line.product_id = prod.id 
             LEFT JOIN LATERAL (
-                    SELECT cr_c1.currency_id, cr_c1.rate, c_c1.display_name AS name, c_c1.symbol
+                    SELECT cr_c1.currency_id, cr_c1.rate, c_c1.name, c_c1.symbol
                     FROM res_currency_rate cr_c1
                     JOIN res_currency c_c1 ON c_c1.id = cr_c1.currency_id
                     WHERE cr_c1.currency_id = so.currency_id
