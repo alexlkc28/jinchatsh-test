@@ -14,9 +14,9 @@ class ReportSaleOrderUndelivered(models.Model):
     _auto = False
 
     product_code = fields.Char()
-    quantity = fields.Integer()
-    shipped_quantity = fields.Integer()
-    outstanding_quantity = fields.Integer()
+    quantity = fields.Float()
+    shipped_quantity = fields.Float()
+    outstanding_quantity = fields.Float()
     unit_price = fields.Monetary()
     currency_name = fields.Char()
     currency_symbol = fields.Char()
