@@ -57,14 +57,13 @@ class ReportSaleOrderUndelivered(models.Model):
                 so.currency_id, 
                 0 AS analytic_account_id, 
                 sale_order_line.display_type, 
-                sale_order_line.create_date AS date,
+                so.create_date AS date,
                 0 AS debit, 
                 0 AS credit, 
                 0 AS balance,
                 
                 0 AS analytic_tag_ids,
                 sale_order_line.create_date,
-                so.company_id,
                 
                 sale_order_line.id,
                 sale_order_line.order_id,
