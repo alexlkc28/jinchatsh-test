@@ -121,7 +121,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
             ),
         ]
 
-        columns[3:3] = [
+        columns[2:2] = [
             self._field_column('amount_residual', name=_("Amount Due"), ellipsis=True),
         ]
 
