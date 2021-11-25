@@ -114,7 +114,7 @@ class ReportSaleOrderUndelivered(models.Model):
             GROUP BY sale_order_line.id, so.id, partner.id, trust_property.id,
                 so.name, prod.default_code,
                 curr_rate.currency_id, curr_rate.rate, curr_rate.name, curr_rate.symbol,
-                partner.display_name, partner.name
+                partner.name, partner.title
         """)
 
         params = {}
