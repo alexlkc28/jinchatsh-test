@@ -146,10 +146,10 @@ class ReportSaleOrderUndelivered(models.Model):
 
     @api.model
     def _get_lines(self, options, line_id=None):
-        data = super()._get_lines(options, line_id)
-        _logger.info(options)
-        _logger.info(data)
-        return data
+        self = self.with_context(report_options=options)
+        line_dict = self._get_values(options=options, line_id=line_id)
+        _logger.info(line_dict)
+        return []
 
     def _show_line(self, report_dict, value_dict, current, options):
         """Determine if a line should be shown.
