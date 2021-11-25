@@ -140,7 +140,7 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _get_hierarchy_details(self, options):
         return [
-            self._hierarchy_level('order_id', foldable=True, namespan=len(self._get_column_details(options)) - 7),
+            self._hierarchy_level('order_id', foldable=True, namespan=len(self._get_column_details(options)) - 1),
             self._hierarchy_level('id'),
         ]
 
@@ -149,3 +149,8 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _format_id_line(self, res, value_dict, options):
         res['name'] = value_dict['order_no']
+
+    def _format_total_line(self, res, value_dict, options):
+        res['name'] = _('Total')
+        res['colspan'] = len(self._get_column_details(options)) - 1
+        res['columns'] = res['columns'][res['colspan'] - 1:]
