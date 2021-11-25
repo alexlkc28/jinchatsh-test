@@ -64,6 +64,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 0 AS analytic_tag_ids,
                 sale_order_line.create_date,
+                sale_order_line.id AS write_uid,
                 
                 sale_order_line.id,
                 sale_order_line.order_id,
