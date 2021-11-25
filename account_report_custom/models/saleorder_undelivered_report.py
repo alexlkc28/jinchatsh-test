@@ -115,6 +115,10 @@ class ReportSaleOrderUndelivered(models.Model):
         params = {}
         return self.env.cr.mogrify(query, params).decode(self.env.cr.connection.encoding)
 
+    @property
+    def _table_query(self):
+        return self._get_sql()
+
     @api.model
     def _get_column_details(self, options):
         columns = [
