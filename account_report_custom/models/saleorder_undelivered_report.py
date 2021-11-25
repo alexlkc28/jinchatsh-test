@@ -14,6 +14,7 @@ class ReportSaleOrderUndelivered(models.Model):
     _auto = False
     filter_unfold_all = True
 
+    order_id = fields.Integer()
     order_no = fields.Char(group_operator='max')
     partner_name = fields.Char()
     english_name = fields.Char()
@@ -59,6 +60,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 prod.default_code AS product_code,
                 
+                so.id AS order_id,
                 so.name AS order_no,
                 so.partner_id AS partner_id,
                 so.currency_id AS currency_id,
@@ -81,7 +83,7 @@ class ReportSaleOrderUndelivered(models.Model):
                     ORDER BY cr_c1.name DESC 
                     LIMIT 1
                 ) curr_rate ON so.currency_id = curr_rate.currency_id           
-            GROUP BY sale_order_line.id, prod.default_code, so.name, so.partner_id, so.currency_id, 
+            GROUP BY sale_order_line.id, prod.default_code, so.id, so.name, so.partner_id, so.currency_id, 
                 curr_rate.rate, curr_rate.name, curr_rate.symbol,
                 customer.display_name, customer.name
         """)
@@ -113,3 +115,9 @@ class ReportSaleOrderUndelivered(models.Model):
         templates = super(ReportSaleOrderUndelivered, self)._get_templates()
         templates['main_template'] = 'account_report_custom.template_account_saleorder_undelivered_report'
         return templates
+
+    def _get_hierarchy_details(self, options):
+        return [
+            self._hierarchy_level('order_id', foldable=True, namespan=len(self._get_column_details(options)) - 7),
+            self._hierarchy_level('id'),
+        ]
