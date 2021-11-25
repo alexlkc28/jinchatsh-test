@@ -144,21 +144,8 @@ class ReportSaleOrderUndelivered(models.Model):
             self._hierarchy_level('id'),
         ]
 
-    def _show_line(self, report_dict, value_dict, current, options):
-        """Determine if a line should be shown.
+    def _format_order_id_line(self, res, value_dict, options):
+        res['name'] = value_dict['order_no'][:128] if value_dict['order_no'] else _('Unknown Order')
 
-        By default, show only children of unfolded lines and children of non unfoldable lines
-        :param report_dict: the lines to be displayed or not
-        :param value_dict: the raw values of the current line
-        :param current (list<tuple>): list of tuple(grouping_key, id)
-        :param options (dict): report options.
-        :return (bool): True if the line should be shown
-        """
-        return (report_dict['order_id'] is None
-                or report_dict['order_id'] == 'total-None'
-                or (report_dict['order_id'] in options.get('unfolded_lines', [])
-                    or options.get('unfold_all'))
-                or not self._get_hierarchy_details(options)[len(current) - 2].foldable)
-
-    def _format_partner_id_line(self, res, value_dict, options):
-        res['name'] = value_dict['partner_name'][:128] if value_dict['partner_name'] else _('Unknown Partner')
+    def _format_id_line(self, res, value_dict, options):
+        res['name'] = value_dict['order_no']
