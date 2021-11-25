@@ -158,6 +158,7 @@ class ReportSaleOrderUndelivered(models.Model):
     def _format_id_line(self, res, value_dict, options):
         res['name'] = value_dict['order_no']
 
+    @api.model
     def _query_get(self, options, domain=None):
         domain = self._get_options_domain(options) + (domain or [])
         self.env['sale.order.line'].check_access_rights('read')
