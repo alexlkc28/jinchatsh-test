@@ -12,17 +12,20 @@ class ReportSaleOrderUndelivered(models.Model):
     _description = "Undelivered"
     _inherit = "account.accounting.report"
     _auto = False
-    _order = "partner_name, order_no asc"
 
+    order_no = fields.Char(group_operator='max')
+    partner_name = fields.Char()
+    english_name = fields.Char()
     product_code = fields.Char()
     quantity = fields.Float()
     shipped_quantity = fields.Float()
     outstanding_quantity = fields.Float()
-    unit_price = fields.Monetary()
     currency_name = fields.Char()
+    currency_rate = fields.Float()
     currency_symbol = fields.Char()
+    unit_price = fields.Monetary()
+    amount_currency = fields.Monetary()
     amount = fields.Monetary()
-    english_name = fields.Char()
 
     def _get_options(self, previous_options=None):
         # OVERRIDE
@@ -46,7 +49,6 @@ class ReportSaleOrderUndelivered(models.Model):
                 sale_order_line.qty_delivered AS shipped_quantity,
                 sale_order_line.price_unit AS unit_price,
                 sale_order_line.price_total AS amount_currency,
-                sale_order_line.create_date AS report_date,
                 
                 CASE WHEN curr_rate.rate > 0
                     THEN (sale_order_line.price_total/curr_rate.rate)
