@@ -15,10 +15,10 @@
         </template>
 
         <template id="line_template_account_saleorder_undelivered_report"
-                  inherit_id="account_report_custom.line_template" primary="True">
+                  inherit_id="account_report_custom.custom_line_template" primary="True">
         </template>
 
-        <template id="line_template">
+        <template id="custom_line_template">
             <t t-foreach="lines['lines']" t-as="line">
                 <t t-set="trclass" t-value="'o_account_reports_default_style'"/>
                 <t t-set="domainClass" t-value="'o_account_reports_domain_line_2 account_report_line_name'"/>
