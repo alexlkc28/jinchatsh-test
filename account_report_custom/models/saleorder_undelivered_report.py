@@ -133,3 +133,19 @@ class ReportSaleOrderUndelivered(models.Model):
             self._hierarchy_level('order_id', foldable=True, namespan=len(self._get_column_details(options)) - 7),
             self._hierarchy_level('id'),
         ]
+
+    def _show_line(self, report_dict, value_dict, current, options):
+        """Determine if a line should be shown.
+
+        By default, show only children of unfolded lines and children of non unfoldable lines
+        :param report_dict: the lines to be displayed or not
+        :param value_dict: the raw values of the current line
+        :param current (list<tuple>): list of tuple(grouping_key, id)
+        :param options (dict): report options.
+        :return (bool): True if the line should be shown
+        """
+        return (report_dict['order_id'] is None
+                or report_dict['order_id'] == 'total-None'
+                or (report_dict['order_id'] in options.get('unfolded_lines', [])
+                    or options.get('unfold_all'))
+                or not self._get_hierarchy_details(options)[len(current) - 2].foldable)
