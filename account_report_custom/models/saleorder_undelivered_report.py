@@ -126,6 +126,7 @@ class ReportSaleOrderUndelivered(models.Model):
         # OVERRIDE
         templates = super(ReportSaleOrderUndelivered, self)._get_templates()
         templates['main_template'] = 'account_report_custom.template_account_saleorder_undelivered_report'
+        templates['line_template'] = 'account_report_custom.line_template_account_saleorder_undelivered_report'
         return templates
 
     def _get_hierarchy_details(self, options):
