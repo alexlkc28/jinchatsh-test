@@ -118,6 +118,6 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _get_hierarchy_details(self, options):
         return [
-            self._hierarchy_level('order_id', foldable=True, namespan=1),
+            self._hierarchy_level('order_id', foldable=False, namespan=1),
             self._hierarchy_level('id'),
         ]
