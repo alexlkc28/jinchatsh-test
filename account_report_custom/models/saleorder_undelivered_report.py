@@ -11,6 +11,8 @@ class ReportSaleOrderUndelivered(models.Model):
     _name = "account.saleorder.undelivered"
     _description = "Undelivered"
     _inherit = "account.accounting.report"
+    _auto = False
+    _order = "partner_name, order_no asc"
 
     product_code = fields.Char()
     quantity = fields.Float()
@@ -89,6 +91,8 @@ class ReportSaleOrderUndelivered(models.Model):
     @api.model
     def _get_column_details(self, options):
         columns = [
+            self._field_column('report_date'),
+
             self._field_column('order_no', name=_("Order No."), ellipsis=True),
             self._field_column('partner_name', name=_("Customer")),
             self._field_column('english_name', name=_("Customer English Name")),
