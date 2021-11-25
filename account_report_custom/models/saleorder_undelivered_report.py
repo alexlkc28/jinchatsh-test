@@ -12,6 +12,7 @@ class ReportSaleOrderUndelivered(models.Model):
     _description = "Undelivered"
     _inherit = "account.accounting.report"
     _auto = False
+    filter_unfold_all = True
 
     order_no = fields.Char(group_operator='max')
     partner_name = fields.Char()
@@ -85,9 +86,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 customer.display_name, customer.name
         """)
 
-        params = {
-            'date': options['date']['date_to'],
-        }
+        params = {}
         return self.env.cr.mogrify(query, params).decode(self.env.cr.connection.encoding)
 
     @api.model
@@ -107,3 +106,10 @@ class ReportSaleOrderUndelivered(models.Model):
         ]
 
         return columns
+
+    @api.model
+    def _get_templates(self):
+        # OVERRIDE
+        templates = super(ReportSaleOrderUndelivered, self)._get_templates()
+        templates['main_template'] = 'account_reports.template_account_saleorder_undelivered_report'
+        return templates

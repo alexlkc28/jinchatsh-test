@@ -4,7 +4,18 @@
         <record id="action_account_report_saleorder_undeliveried" model="ir.actions.client">
             <field name="name">Undelivered</field>
             <field name="tag">account_report</field>
-            <field name="context" eval="{'model': 'account.saleorder.undelivered'}" />
+            <field name="context" eval="{'model': 'account.saleorder.undelivered'}"/>
         </record>
+
+        <template id="template_account_saleorder_undelivered_report" inherit_id="account_reports.main_template"
+                  primary="True">
+            <xpath expr="//table" position="attributes">
+                <attribute name="class">o_account_reports_table table-striped table-hover</attribute>
+            </xpath>
+        </template>
+
+        <template id="line_template_account_saleorder_undelivered_report"
+                  inherit_id="account_reports.line_template" primary="True">
+        </template>
     </data>
 </odoo>
