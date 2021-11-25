@@ -11,14 +11,16 @@ class ReportSaleOrderUndelivered(models.Model):
     _name = "account.saleorder.undelivered"
     _description = "Undelivered"
     _inherit = "account.accounting.report"
+    _order = "order_no asc"
     _auto = False
+
     filter_unfold_all = True
 
-    order_id = fields.Integer()
+    order_id = fields.Many2one('sale.order')
     order_no = fields.Char(group_operator='max')
-    partner_id = fields.Integer()
-    partner_name = fields.Char()
-    english_name = fields.Char()
+    partner_id = fields.Many2one('res.partner')
+    partner_name = fields.Char(group_operator='max')
+    english_name = fields.Char(group_operator='max')
     product_code = fields.Char()
     quantity = fields.Float()
     shipped_quantity = fields.Float()
