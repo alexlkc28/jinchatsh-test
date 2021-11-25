@@ -160,7 +160,10 @@ class ReportSaleOrderUndelivered(models.Model):
 
     @api.model
     def _get_options_domain(self, options):
-        domain = super()._get_options_domain(options)
-        _logger.info('JACKY001')
+        domain = [
+            ('company_id', 'in', self.get_report_company_ids(options)),
+        ]
+        domain += self._get_options_partner_domain(options)
+        domain += self._get_options_all_entries_domain(options)
         _logger.info(domain)
         return domain
