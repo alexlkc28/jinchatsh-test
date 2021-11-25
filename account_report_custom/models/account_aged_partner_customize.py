@@ -12,6 +12,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
 
     order_no = fields.Char(group_operator='max')
     currency_rate = fields.Float(group_operator='max')
+    amount_residual = fields.Monetary(string='Amount Due')
 
     @api.model
     def _get_sql(self):
@@ -30,6 +31,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     move.move_type AS move_type,
                     move.name AS move_name,
                     move.ref AS move_ref,
+                    move.amount_residual,
                     so.name AS order_no,
                     curr_rate.rate AS currency_rate,
                     account.code || ' ' || account.name AS account_name,
@@ -117,6 +119,10 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
                     lambda v: v['amount_currency'] / (v['currency_rate'] or 1)),
                 sortable=True,
             ),
+        ]
+
+        columns[3:3] = [
+            self._field_column('amount_residual', name=_("Amount Due"), ellipsis=True),
         ]
 
         return columns
