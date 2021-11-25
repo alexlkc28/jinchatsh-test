@@ -17,6 +17,7 @@ class ReportSaleOrderUndelivered(models.Model):
     filter_unfold_all = True
 
     analytic_tag_ids = fields.Integer()
+    move_id = fields.Many2one('sale.order')
 
     order_id = fields.Many2one('sale.order')
     order_no = fields.Char(group_operator='max')
@@ -64,6 +65,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 0 AS analytic_tag_ids,
                 sale_order_line.create_date,
+                sale_order_line.create_date AS write_date,
                 sale_order_line.id AS write_uid,
                 sale_order_line.id AS create_uid,
                 
