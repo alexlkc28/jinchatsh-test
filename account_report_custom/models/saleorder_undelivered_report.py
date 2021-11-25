@@ -159,16 +159,8 @@ class ReportSaleOrderUndelivered(models.Model):
         res['name'] = value_dict['order_no']
 
     @api.model
-    def _query_get(self, options, domain=None):
-        domain = self._get_options_domain(options) + (domain or [])
-        self.env['sale.order.line'].check_access_rights('read')
-
-        query = self.env['sale.order.line']._where_calc(domain)
-
-        # Wrap the query with 'company_id IN (...)' to avoid bypassing company access rights.
-        self.env['sale.order.line']._apply_ir_rules(query)
-
+    def _get_options_domain(self, options):
+        domain = super()._get_options_domain(options)
         _logger.info('JACKY001')
-        _logger.info(query.get_sql())
-
-        return self._get_sql()
+        _logger.info(domain)
+        return domain
