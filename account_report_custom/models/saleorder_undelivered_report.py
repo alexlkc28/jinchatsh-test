@@ -46,6 +46,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 sale_order_line.qty_delivered AS shipped_quantity,
                 sale_order_line.price_unit AS unit_price,
                 sale_order_line.price_total AS amount_currency,
+                sale_order_line.create_date AS report_date,
                 
                 CASE WHEN curr_rate.rate > 0
                     THEN (sale_order_line.price_total/curr_rate.rate)
