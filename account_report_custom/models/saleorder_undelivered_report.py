@@ -87,9 +87,9 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 so.name AS order_no,
                 
-                curr_rate.name AS currency_name,
-                curr_rate.symbol AS currency_symbol,
-                curr_rate.rate AS currency_rate,
+                CASE WHEN curr_rate.rate > 0 THEN curr_rate.name ELSE 'HKD' END AS currency_name,
+                CASE WHEN curr_rate.rate > 0 THEN curr_rate.symbol ELSE '$' END AS currency_symbol,
+                CASE WHEN curr_rate.rate > 0 THEN curr_rate.rate ELSE 1 END AS currency_rate,
                 
                 partner.id AS partner_id,
                 partner.name AS partner_name,
