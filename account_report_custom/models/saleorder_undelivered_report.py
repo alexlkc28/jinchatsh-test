@@ -16,6 +16,7 @@ class ReportSaleOrderUndelivered(models.Model):
 
     order_id = fields.Integer()
     order_no = fields.Char(group_operator='max')
+    partner_id = fields.Integer()
     partner_name = fields.Char()
     english_name = fields.Char()
     product_code = fields.Char()
@@ -74,13 +75,13 @@ class ReportSaleOrderUndelivered(models.Model):
                 prod.default_code AS product_code,
                 
                 so.name AS order_no,
-                so.partner_id AS partner_id,
                 so.currency_id AS currency_id,
                 
                 curr_rate.name AS currency_name,
                 curr_rate.symbol AS currency_symbol,
                 curr_rate.rate AS currency_rate,
                 
+                customer.id AS partner_id,
                 customer.display_name AS partner_name,
                 customer.name AS english_name
             FROM sale_order_line
@@ -95,9 +96,11 @@ class ReportSaleOrderUndelivered(models.Model):
                     ORDER BY cr_c1.name DESC 
                     LIMIT 1
                 ) curr_rate ON so.currency_id = curr_rate.currency_id           
-            GROUP BY sale_order_line.id, prod.default_code, so.id, so.name, so.partner_id, so.currency_id, 
+            GROUP BY sale_order_line.id, 
+                prod.default_code, 
+                so.id, so.name, so.currency_id, 
                 curr_rate.rate, curr_rate.name, curr_rate.symbol,
-                customer.display_name, customer.name
+                customer.id, customer.display_name, customer.name
         """)
 
         params = {}
