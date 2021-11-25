@@ -12,6 +12,7 @@ class ReportSaleOrderUndelivered(models.Model):
     _description = "Undelivered"
     _inherit = "account.aged.partner"
     _auto = False
+    _order = "partner_name, order_no asc"
 
     product_code = fields.Char()
     quantity = fields.Float()
@@ -22,8 +23,6 @@ class ReportSaleOrderUndelivered(models.Model):
     currency_symbol = fields.Char()
     amount = fields.Monetary()
     english_name = fields.Char()
-
-    date = fields.Date()
 
     def _get_options(self, previous_options=None):
         # OVERRIDE
