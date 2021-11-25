@@ -90,7 +90,7 @@ class ReportSaleOrderUndelivered(models.Model):
             JOIN sale_order so ON sale_order_line.order_id = so.id
             JOIN res_partner partner ON so.partner_id = partner.id
             LEFT JOIN ir_property trust_property ON (
-                trust_property.res_id = 'res.partner,'|| sale_order_line.partner_id
+                trust_property.res_id = 'res.partner,'|| so.partner_id
                 AND trust_property.name = 'trust'
                 AND trust_property.company_id = sale_order_line.company_id
             )
