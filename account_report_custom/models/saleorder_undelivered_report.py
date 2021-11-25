@@ -52,8 +52,8 @@ class ReportSaleOrderUndelivered(models.Model):
             SELECT                
                 so.id AS move_id, 
                 sale_order_line.name, 
-                so.id AS account_id, 
-                so.id AS journal_id, 
+                0 AS account_id, 
+                0 AS journal_id, 
                 sale_order_line.company_id, 
                 so.currency_id, 
                 so.analytic_account_id AS analytic_account_id, 
@@ -157,3 +157,8 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _format_id_line(self, res, value_dict, options):
         res['name'] = value_dict['order_no']
+
+    def _query_get(self, options, domain=None):
+        query = super()._query_get(options, domain)
+        _logger.info(query)
+        return query
