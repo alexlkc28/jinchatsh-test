@@ -64,10 +64,10 @@ class ReportSaleOrderUndelivered(models.Model):
                 0 AS balance,
                 
                 0 AS analytic_tag_ids,
-                sale_order_line.create_date,
-                sale_order_line.write_date,
-                sale_order_line.write_uid,
-                sale_order_line.create_uid,
+                sale_order_line.create_date AS create_date,
+                sale_order_line.write_date AS write_date,
+                sale_order_line.write_uid AS write_uid,
+                sale_order_line.create_uid AS create_uid,
                 
                 sale_order_line.id,
                 sale_order_line.order_id,
@@ -159,6 +159,14 @@ class ReportSaleOrderUndelivered(models.Model):
         res['name'] = value_dict['order_no']
 
     def _query_get(self, options, domain=None):
-        query = super()._query_get(options, domain)
-        _logger.info(query)
-        return query
+        domain = self._get_options_domain(options) + (domain or [])
+        self.env['sale.order.line'].check_access_rights('read')
+
+        query = self.env['sale.order.line']._where_calc(domain)
+
+        # Wrap the query with 'company_id IN (...)' to avoid bypassing company access rights.
+        self.env['sale.order.line']._apply_ir_rules(query)
+
+        _logger.info(query.get_sql())
+
+        return query.get_sql()
