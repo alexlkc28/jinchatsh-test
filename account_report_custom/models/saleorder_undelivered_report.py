@@ -12,7 +12,7 @@ class ReportSaleOrderUndelivered(models.Model):
     _description = "Undelivered"
     _inherit = "account.accounting.report"
     _order = "order_no asc"
-    _auto = False
+    # _auto = False
 
     filter_unfold_all = True
 
