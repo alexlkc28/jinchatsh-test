@@ -49,7 +49,7 @@ class ReportSaleOrderUndelivered(models.Model):
         options = self.env.context['report_options']
         query = ("""
             SELECT                
-                sale_order_line.id AS move_id, 
+                so.id AS move_id, 
                 sale_order_line.name, 
                 0 AS account_id, 
                 0 AS journal_id, 
