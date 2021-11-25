@@ -167,6 +167,7 @@ class ReportSaleOrderUndelivered(models.Model):
         # Wrap the query with 'company_id IN (...)' to avoid bypassing company access rights.
         self.env['sale.order.line']._apply_ir_rules(query)
 
+        _logger.info('---------------------------->')
         _logger.info(query.get_sql())
 
-        return query.get_sql()
+        return self._get_sql()
