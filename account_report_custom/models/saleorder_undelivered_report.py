@@ -81,7 +81,9 @@ class ReportSaleOrderUndelivered(models.Model):
                 customer.display_name, customer.name
         """)
 
-        params = {}
+        params = {
+            'date': options['date']['date_to'],
+        }
         return self.env.cr.mogrify(query, params).decode(self.env.cr.connection.encoding)
 
     @api.model
