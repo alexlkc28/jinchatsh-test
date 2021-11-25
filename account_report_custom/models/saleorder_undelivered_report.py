@@ -131,7 +131,7 @@ class ReportSaleOrderUndelivered(models.Model):
             self._field_column('quantity', name=_("Quantity")),
             self._field_column('shipped_quantity', name=_("Shipped Quantity")),
             self._field_column('outstanding_quantity', name=_("Outstanding Quantity")),
-            self._field_column('currency_symbol', name=_("Currency")),
+            self._field_column('currency_name', name=_("Currency")),
             self._field_column('unit_price', name=_("Unit Price")),
             self._field_column('amount_currency'),
             self._field_column('amount', name=_("Amount")),
