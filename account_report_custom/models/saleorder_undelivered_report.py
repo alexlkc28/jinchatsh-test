@@ -52,11 +52,11 @@ class ReportSaleOrderUndelivered(models.Model):
             SELECT                
                 so.id AS move_id, 
                 sale_order_line.name, 
-                0 AS account_id, 
-                0 AS journal_id, 
+                so.id AS account_id, 
+                so.id AS journal_id, 
                 sale_order_line.company_id, 
                 so.currency_id, 
-                0 AS analytic_account_id, 
+                so.analytic_account_id AS analytic_account_id, 
                 sale_order_line.display_type, 
                 so.create_date AS date,
                 0 AS debit, 
@@ -65,9 +65,9 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 0 AS analytic_tag_ids,
                 sale_order_line.create_date,
-                sale_order_line.create_date AS write_date,
-                sale_order_line.id AS write_uid,
-                sale_order_line.id AS create_uid,
+                sale_order_line.write_date,
+                sale_order_line.write_uid,
+                sale_order_line.create_uid,
                 
                 sale_order_line.id,
                 sale_order_line.order_id,
