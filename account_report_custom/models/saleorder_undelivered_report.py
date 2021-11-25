@@ -61,6 +61,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 0 AS debit, 
                 0 AS credit, 
                 0 AS balance,
+                0 AS analytic_tag_ids,
                 
                 sale_order_line.id,
                 sale_order_line.order_id,
