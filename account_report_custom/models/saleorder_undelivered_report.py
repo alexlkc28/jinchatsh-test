@@ -30,9 +30,9 @@ class ReportSaleOrderUndelivered(models.Model):
     currency_name = fields.Char()
     currency_rate = fields.Float()
     currency_symbol = fields.Char()
-    unit_price = fields.Monetary()
-    amount_currency = fields.Monetary()
-    amount = fields.Monetary()
+    unit_price = fields.Monetary(currency_field='currency_id')
+    amount_currency = fields.Monetary(currency_field='currency_id')
+    amount = fields.Monetary(currency_field='currency_id')
 
     # def _get_options(self, previous_options=None):
     #     # OVERRIDE
@@ -115,10 +115,6 @@ class ReportSaleOrderUndelivered(models.Model):
         params = {}
         return self.env.cr.mogrify(query, params).decode(self.env.cr.connection.encoding)
 
-    @property
-    def _table_query(self):
-        return self._get_sql()
-
     @api.model
     def _get_column_details(self, options):
         columns = [
@@ -147,7 +143,7 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _get_hierarchy_details(self, options):
         return [
-            self._hierarchy_level('order_id', foldable=True, namespan=len(self._get_column_details(options)) - 1),
+            self._hierarchy_level('order_no', foldable=True, namespan=len(self._get_column_details(options)) - 1),
             self._hierarchy_level('id'),
         ]
 
@@ -156,8 +152,3 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _format_id_line(self, res, value_dict, options):
         res['name'] = value_dict['order_no']
-
-    def _format_total_line(self, res, value_dict, options):
-        res['name'] = _('Total')
-        res['colspan'] = len(self._get_column_details(options)) - 1
-        res['columns'] = res['columns'][res['colspan'] - 1:]
