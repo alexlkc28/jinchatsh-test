@@ -136,6 +136,7 @@ class ReportSaleOrderUndelivered(models.Model):
         ]
 
     def _show_line(self, report_dict, value_dict, current, options):
+        _logger.info(report_dict)
         """Determine if a line should be shown.
 
         By default, show only children of unfolded lines and children of non unfoldable lines
