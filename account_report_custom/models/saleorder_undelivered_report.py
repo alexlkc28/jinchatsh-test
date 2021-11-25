@@ -62,7 +62,8 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 sale_order_line.id,
                 sale_order_line.order_id,
-                sale_order_line.product_id,                
+                sale_order_line.currency_id,
+                sale_order_line.product_id,
                 sale_order_line.product_uom_qty AS quantity,
                 sale_order_line.qty_delivered AS shipped_quantity,
                 sale_order_line.price_unit AS unit_price,
@@ -77,32 +78,36 @@ class ReportSaleOrderUndelivered(models.Model):
                 prod.default_code AS product_code,
                 
                 so.name AS order_no,
-                so.currency_id AS currency_id,
                 
                 curr_rate.name AS currency_name,
                 curr_rate.symbol AS currency_symbol,
                 curr_rate.rate AS currency_rate,
                 
-                customer.id AS partner_id,
-                customer.display_name AS partner_name,
-                customer.name AS english_name
+                partner.id AS partner_id,
+                partner.display_name AS partner_name,
+                partner.name AS english_name
             FROM sale_order_line
             JOIN sale_order so ON sale_order_line.order_id = so.id
-            JOIN res_partner customer ON so.partner_id = customer.id
+            JOIN res_partner partner ON so.partner_id = partner.id
+            LEFT JOIN ir_property trust_property ON (
+                trust_property.res_id = 'res.partner,'|| sale_order_line.partner_id
+                AND trust_property.name = 'trust'
+                AND trust_property.company_id = sale_order_line.company_id
+            )
             JOIN product_product prod ON sale_order_line.product_id = prod.id 
             LEFT JOIN LATERAL (
                     SELECT cr_c1.currency_id, cr_c1.rate, c_c1.name, c_c1.symbol
                     FROM res_currency_rate cr_c1
                     JOIN res_currency c_c1 ON c_c1.id = cr_c1.currency_id
-                    WHERE cr_c1.currency_id = so.currency_id
+                    WHERE cr_c1.currency_id = sale_order_line.currency_id
                     ORDER BY cr_c1.name DESC 
                     LIMIT 1
                 ) curr_rate ON so.currency_id = curr_rate.currency_id           
-            GROUP BY sale_order_line.id, 
-                prod.default_code, 
-                so.id, so.name, so.currency_id, 
+            GROUP BY sale_order_line.id, sale_order_line.currency_id,
+                prod.default_code, trust_property.id,
+                so.id, so.name,
                 curr_rate.rate, curr_rate.name, curr_rate.symbol,
-                customer.id, customer.display_name, customer.name
+                partner.id, partner.display_name, partner.name
         """)
 
         params = {}
