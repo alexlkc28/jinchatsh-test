@@ -16,6 +16,8 @@ class ReportSaleOrderUndelivered(models.Model):
 
     filter_unfold_all = True
 
+    analytic_tag_ids = fields.Integer()
+
     order_id = fields.Many2one('sale.order')
     order_no = fields.Char(group_operator='max')
     partner_id = fields.Many2one('res.partner')
