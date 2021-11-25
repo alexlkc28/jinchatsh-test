@@ -83,7 +83,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 (sale_order_line.product_uom_qty - sale_order_line.qty_delivered) AS outstanding_quantity,
                 
-                prod.default_code AS product_code,
+                prodtem.name AS product_code,
                 
                 so.name AS order_no,
                 
@@ -93,7 +93,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 partner.id AS partner_id,
                 partner.name AS partner_name,
-                partner.title AS english_name
+                partner.display_name AS english_name
             FROM sale_order_line
             JOIN sale_order so ON sale_order_line.order_id = so.id
             JOIN res_partner partner ON so.partner_id = partner.id
@@ -103,6 +103,7 @@ class ReportSaleOrderUndelivered(models.Model):
                 AND trust_property.company_id = sale_order_line.company_id
             )
             JOIN product_product prod ON sale_order_line.product_id = prod.id 
+            JOIN product_template prodtem ON prodtem.id = prod.product_tmpl_id 
             LEFT JOIN LATERAL (
                     SELECT cr_c1.currency_id, cr_c1.rate, c_c1.name, c_c1.symbol
                     FROM res_currency_rate cr_c1
@@ -112,9 +113,9 @@ class ReportSaleOrderUndelivered(models.Model):
                     LIMIT 1
                 ) curr_rate ON so.currency_id = curr_rate.currency_id           
             GROUP BY sale_order_line.id, so.id, partner.id, trust_property.id,
-                so.name, prod.default_code,
+                so.name, prodtem.name,
                 curr_rate.currency_id, curr_rate.rate, curr_rate.name, curr_rate.symbol,
-                partner.name, partner.title
+                partner.name, partner.display_name
         """)
 
         params = {}
@@ -123,7 +124,7 @@ class ReportSaleOrderUndelivered(models.Model):
     @api.model
     def _get_column_details(self, options):
         columns = [
-            self._field_column('order_no', name=_("Order No."), ellipsis=True),
+            self._field_column('order_no', name=_("Order No.")),
             self._field_column('partner_name', name=_("Customer")),
             self._field_column('english_name', name=_("Customer English Name")),
             self._field_column('product_code', name=_("Product Code")),
