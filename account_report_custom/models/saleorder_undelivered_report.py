@@ -49,7 +49,7 @@ class ReportSaleOrderUndelivered(models.Model):
         options = self.env.context['report_options']
         query = ("""
             SELECT                
-                0 AS move_id, 
+                sale_order_line.id AS move_id, 
                 sale_order_line.name, 
                 0 AS account_id, 
                 0 AS journal_id, 
@@ -143,7 +143,7 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _get_hierarchy_details(self, options):
         return [
-            self._hierarchy_level('order_no', foldable=True, namespan=len(self._get_column_details(options)) - 1),
+            self._hierarchy_level('order_id', foldable=True, namespan=len(self._get_column_details(options)) - 1),
             self._hierarchy_level('id'),
         ]
 
