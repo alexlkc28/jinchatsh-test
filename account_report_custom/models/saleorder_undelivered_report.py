@@ -92,8 +92,8 @@ class ReportSaleOrderUndelivered(models.Model):
                 curr_rate.rate AS currency_rate,
                 
                 partner.id AS partner_id,
-                partner.display_name AS partner_name,
-                partner.name AS english_name
+                partner.name AS partner_name,
+                partner.title AS english_name
             FROM sale_order_line
             JOIN sale_order so ON sale_order_line.order_id = so.id
             JOIN res_partner partner ON so.partner_id = partner.id
@@ -164,5 +164,4 @@ class ReportSaleOrderUndelivered(models.Model):
             ('company_id', 'in', self.get_report_company_ids(options)),
         ]
         domain += self._get_options_partner_domain(options)
-        _logger.info(domain)
         return domain
