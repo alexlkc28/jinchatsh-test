@@ -54,19 +54,20 @@ class ReportSaleOrderUndelivered(models.Model):
                 0 AS account_id, 
                 0 AS journal_id, 
                 sale_order_line.company_id, 
-                sale_order_line.currency_id, 
+                so.currency_id, 
                 0 AS analytic_account_id, 
                 sale_order_line.display_type, 
                 sale_order_line.create_date AS date,
-                sale_order_line.create_date, 
                 0 AS debit, 
                 0 AS credit, 
                 0 AS balance,
+                
                 0 AS analytic_tag_ids,
+                sale_order_line.create_date,
+                so.company_id,
                 
                 sale_order_line.id,
                 sale_order_line.order_id,
-                sale_order_line.currency_id,
                 sale_order_line.product_id,
                 sale_order_line.product_uom_qty AS quantity,
                 sale_order_line.qty_delivered AS shipped_quantity,
@@ -103,7 +104,7 @@ class ReportSaleOrderUndelivered(models.Model):
                     SELECT cr_c1.currency_id, cr_c1.rate, c_c1.name, c_c1.symbol
                     FROM res_currency_rate cr_c1
                     JOIN res_currency c_c1 ON c_c1.id = cr_c1.currency_id
-                    WHERE cr_c1.currency_id = sale_order_line.currency_id
+                    WHERE cr_c1.currency_id = so.currency_id
                     ORDER BY cr_c1.name DESC 
                     LIMIT 1
                 ) curr_rate ON so.currency_id = curr_rate.currency_id           
