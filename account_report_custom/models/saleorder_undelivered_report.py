@@ -23,6 +23,8 @@ class ReportSaleOrderUndelivered(models.Model):
     amount = fields.Monetary()
     english_name = fields.Char()
 
+    date = fields.Date()
+
     def _get_options(self, previous_options=None):
         # OVERRIDE
         options = super(ReportSaleOrderUndelivered, self)._get_options(previous_options=previous_options)
