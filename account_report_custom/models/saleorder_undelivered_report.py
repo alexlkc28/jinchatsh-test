@@ -43,8 +43,21 @@ class ReportSaleOrderUndelivered(models.Model):
     def _get_sql(self):
         options = self.env.context['report_options']
         query = ("""
-            SELECT
-                sale_order_line.id, 
+            SELECT                
+                0 AS move_id, 
+                sale_order_line.name, 
+                0 AS account_id, 
+                0 AS journal_id, 
+                sale_order_line.company_id, 
+                sale_order_line.currency_id, 
+                0 AS analytic_account_id, 
+                sale_order_line.display_type, 
+                sale_order_line.create_date AS date, 
+                0 AS debit, 
+                0 AS credit, 
+                0 AS balance,
+                
+                sale_order_line.id,
                 sale_order_line.order_id,
                 sale_order_line.product_id,                
                 sale_order_line.product_uom_qty AS quantity,
@@ -60,7 +73,6 @@ class ReportSaleOrderUndelivered(models.Model):
                 
                 prod.default_code AS product_code,
                 
-                so.id AS order_id,
                 so.name AS order_no,
                 so.partner_id AS partner_id,
                 so.currency_id AS currency_id,
