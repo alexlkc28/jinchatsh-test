@@ -111,5 +111,5 @@ class ReportSaleOrderUndelivered(models.Model):
     def _get_templates(self):
         # OVERRIDE
         templates = super(ReportSaleOrderUndelivered, self)._get_templates()
-        templates['main_template'] = 'account_reports.template_account_saleorder_undelivered_report'
+        templates['main_template'] = 'account_report_custom.template_account_saleorder_undelivered_report'
         return templates
