@@ -12,7 +12,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
 
     order_no = fields.Char(group_operator='max')
     currency_rate = fields.Float(group_operator='max')
-    amount_residual = fields.Monetary(string='Amount Due')
+    amount_residual = fields.Monetary(string='Amount Due', currency_field='currency_id')
 
     @api.model
     def _get_sql(self):
