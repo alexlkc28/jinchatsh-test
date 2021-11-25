@@ -103,11 +103,10 @@ class ReportSaleOrderUndelivered(models.Model):
                     ORDER BY cr_c1.name DESC 
                     LIMIT 1
                 ) curr_rate ON so.currency_id = curr_rate.currency_id           
-            GROUP BY sale_order_line.id, sale_order_line.currency_id,
-                prod.default_code, trust_property.id,
-                so.id, so.name,
-                curr_rate.rate, curr_rate.name, curr_rate.symbol,
-                partner.id, partner.display_name, partner.name
+            GROUP BY sale_order_line.id, so.id, partner.id, trust_property.id,
+                so.name, prod.default_code,
+                curr_rate.currency_id, curr_rate.rate, curr_rate.name, curr_rate.symbol,
+                partner.display_name, partner.name
         """)
 
         params = {}
@@ -145,8 +144,14 @@ class ReportSaleOrderUndelivered(models.Model):
             self._hierarchy_level('id'),
         ]
 
+    @api.model
+    def _get_lines(self, options, line_id=None):
+        data = super()._get_lines(options, line_id)
+        _logger.info(options)
+        _logger.info(data)
+        return data
+
     def _show_line(self, report_dict, value_dict, current, options):
-        _logger.info(report_dict)
         """Determine if a line should be shown.
 
         By default, show only children of unfolded lines and children of non unfoldable lines
