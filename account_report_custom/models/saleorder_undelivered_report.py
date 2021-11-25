@@ -144,13 +144,6 @@ class ReportSaleOrderUndelivered(models.Model):
             self._hierarchy_level('id'),
         ]
 
-    @api.model
-    def _get_lines(self, options, line_id=None):
-        self = self.with_context(report_options=options)
-        line_dict = self._get_values(options=options, line_id=line_id)
-        _logger.info(line_dict)
-        return []
-
     def _show_line(self, report_dict, value_dict, current, options):
         """Determine if a line should be shown.
 
@@ -166,3 +159,6 @@ class ReportSaleOrderUndelivered(models.Model):
                 or (report_dict['order_id'] in options.get('unfolded_lines', [])
                     or options.get('unfold_all'))
                 or not self._get_hierarchy_details(options)[len(current) - 2].foldable)
+
+    def _format_partner_id_line(self, res, value_dict, options):
+        res['name'] = value_dict['partner_name'][:128] if value_dict['partner_name'] else _('Unknown Partner')
