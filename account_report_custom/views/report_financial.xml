@@ -68,8 +68,8 @@
                                         <div class="dropdown-menu o_account_reports_domain_dropdown" role="menu">
                                             <t t-call="{{model._get_templates()['line_caret_options']}}"/>
                                             <a role="menuitem" tabindex="-1"
-                                               t-att-data-id="line.get('line_id') or line['id']"
-                                               t-att-data-model="line.get('model', 'sale.order.line')"
+                                               t-att-data-id="line.get('order_id') or line['order_id']"
+                                               t-att-data-model="sale.order"
                                                t-att-data-action-context="line.get('action_context')"
                                                data-object="sale.order" action="open_document" class="dropdown-item">
                                                 View Journal Entry
