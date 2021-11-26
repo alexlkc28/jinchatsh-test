@@ -15,6 +15,6 @@ class JinchatshIrAttachment(models.Model):
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
         if order is None:
             order = 'create_date desc'
-        search = super().search_read(domain, fields, order=order)
+        search = super().search_read(domain, fields=fields, offset=offset, limit=limit, order=order)
         _logger.info(search)
         return search
