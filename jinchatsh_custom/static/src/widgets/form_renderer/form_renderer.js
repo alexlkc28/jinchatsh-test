@@ -52,6 +52,8 @@ FormRenderer.include({
         this._attachmentViewerThread = undefined;
         this._isChatterInFormSheetBg = false;
         this._onResizeWindow = _.debounce(this._onResizeWindow.bind(this), 200);
+
+        console.log('jinchatsh form render');
     },
     /**
      * @override
