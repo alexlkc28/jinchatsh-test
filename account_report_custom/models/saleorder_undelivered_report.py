@@ -13,6 +13,7 @@ class ReportSaleOrderUndelivered(models.Model):
     _inherit = "account.accounting.report"
     _order = "order_no asc"
     # _auto = False
+    total_line = False
 
     filter_unfold_all = True
 
@@ -124,7 +125,7 @@ class ReportSaleOrderUndelivered(models.Model):
     @api.model
     def _get_column_details(self, options):
         columns = [
-            self._field_column('order_no', name=_("Order No.")),
+            self._field_column('order_no', name=_("Order No."), ellipsis=True),
             self._field_column('partner_name', name=_("Customer")),
             self._field_column('english_name', name=_("Customer English Name")),
             self._field_column('product_code', name=_("Product Code")),
@@ -158,6 +159,10 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _format_id_line(self, res, value_dict, options):
         res['name'] = value_dict['order_no']
+        for col in res['columns']:
+            if col.get('no_format') == 0:
+                col['name'] = ''
+        res['columns'][-1]['name'] = ''
 
     @api.model
     def _get_options_domain(self, options):
