@@ -7,7 +7,7 @@ import { hidePDFJSButtons } from '@web/legacy/js/libs/pdfjs';
 var QWeb = core.qweb;
 
 var JinchatshAttachmentViewer = Widget.extend({
-    className: 'o_attachment_preview_last_container',
+    className: 'o_attachment_preview_container',
     events: {
         'click .arrow.o_move_next': '_onClickNext',
         'click .arrow.o_move_previous': '_onClickPrevious',
