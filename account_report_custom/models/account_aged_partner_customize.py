@@ -103,11 +103,11 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
         columns = super()._get_column_details(options)
 
         columns[5:5] = [
-            self._field_column('order_no', name=_("Order No."), ellipsis=True),
+            self._field_column('order_no', name=_("Order No.")),
         ]
 
         columns[4:4] = [
-            self._field_column('currency_rate', name=_("Rate"), ellipsis=True),
+            self._field_column('currency_rate', name=_("Rate")),
         ]
 
         columns[5:5] = [
@@ -122,7 +122,7 @@ class ReportAccountAgedPartnerCustomize(models.AbstractModel):
         ]
 
         columns[2:2] = [
-            self._field_column('amount_residual', name=_("Amount Due"), ellipsis=True),
+            self._field_column('amount_residual', name=_("Amount Due")),
         ]
 
         return columns
