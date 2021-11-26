@@ -125,9 +125,9 @@ class ReportSaleOrderUndelivered(models.Model):
     @api.model
     def _get_column_details(self, options):
         columns = [
-            self._field_column('order_no', name=_("Order No."), ellipsis=True),
-            self._field_column('partner_name', name=_("Customer")),
-            self._field_column('english_name', name=_("Customer English Name")),
+            self._field_column('order_no', name=_("Order No.")),
+            self._field_column('partner_name', name=_("Customer"), ellipsis=True),
+            self._field_column('english_name', name=_("Customer English Name"), ellipsis=True),
             self._field_column('product_code', name=_("Product Code")),
             self._field_column('quantity', name=_("Quantity")),
             self._field_column('shipped_quantity', name=_("Shipped Quantity")),
