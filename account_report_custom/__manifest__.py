@@ -14,5 +14,5 @@
 	],
 	'installable': True,
 	'auto_install': False,
-	'category': 'Accounting',
+	'category': 'Customizations',
 }

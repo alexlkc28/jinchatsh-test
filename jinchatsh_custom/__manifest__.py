@@ -19,5 +19,5 @@
 	},
 	'installable': True,
 	'auto_install': False,
-	'category': 'Base',
+	'category': 'Customizations',
 }
