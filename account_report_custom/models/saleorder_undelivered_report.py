@@ -20,7 +20,7 @@ class ReportSaleOrderUndelivered(models.Model):
     analytic_tag_ids = fields.Integer()
     move_id = fields.Many2one('sale.order')
 
-    order_id = fields.Many2one('sale.order')
+    order_id = fields.Integer()
     order_no = fields.Char(group_operator='max')
     partner_id = fields.Many2one('res.partner')
     partner_name = fields.Char(group_operator='max')
@@ -159,7 +159,7 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _format_id_line(self, res, value_dict, options):
         res['name'] = value_dict['order_no']
-        res['order_id'] = value_dict['order_id'].get('id')
+        res['order_id'] = value_dict['order_id']
         res['title_hover'] = value_dict['order_no']
         res['caret_options'] = 'sale.order'
         for col in res['columns']:
