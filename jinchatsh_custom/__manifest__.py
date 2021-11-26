@@ -11,6 +11,12 @@
 	'data': [
 
 	],
+	'assets': {
+		'web.assets_backend': [
+			'jinchatsh_custom/static/src/js/attachment_viewer.js',
+			'jinchatsh_custom/static/src/widgets/*/*.js',
+		],
+	},
 	'installable': True,
 	'auto_install': False,
 	'category': 'Base',
