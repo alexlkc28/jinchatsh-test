@@ -9,3 +9,5 @@ var JinchatshAttachmentViewer = Widget.extend(AttachmentViewer, {
         this._super.apply(this, arguments);
     },
 });
+
+export default JinchatshAttachmentViewer;
