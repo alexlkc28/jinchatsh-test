@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import '@mail_enterprise/widgets/form_renderer/form_renderer';
+import FormRenderer from '@mail_enterprise/widgets/form_renderer/form_renderer';
 import JinchatshAttachmentViewer from '@jinchatsh_custom/js/attachment_viewer';
 
 FormRenderer.include({
