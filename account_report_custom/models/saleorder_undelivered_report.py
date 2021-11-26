@@ -159,6 +159,7 @@ class ReportSaleOrderUndelivered(models.Model):
 
     def _format_id_line(self, res, value_dict, options):
         res['name'] = value_dict['order_no']
+        res['caret_options'] = 'sale.order'
         for col in res['columns']:
             if col.get('no_format') == 0:
                 col['name'] = ''

@@ -11,6 +11,16 @@
             <t t-foreach="lines['lines']" t-as="line">
                 <t t-set="trclass" t-value="'o_account_reports_default_style'"/>
                 <t t-set="domainClass" t-value="'o_account_reports_domain_line_2 account_report_line_name'"/>
+                <t t-if="not line.get('caret_options')">
+                    <t t-if="line.get('level') != None">
+                        <t t-set="trclass" t-value="'o_account_searchable_line o_account_reports_level'+str(line['level'])"/>
+                    </t>
+                </t>
+                <t t-if="line.get('caret_options')">
+                    <t t-if="line.get('level')">
+                        <t t-set="domainClass" t-value="'o_account_reports_domain_line_'+str(line['level'])"/>
+                    </t>
+                </t>
 
                 <tr t-attf-class="#{trclass} #{line.get('class', '')} #{'o_js_account_report_parent_row_unfolded' if line.get('unfolded', False) else ''}"
                     tabindex="0"
