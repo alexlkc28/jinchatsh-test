@@ -174,3 +174,35 @@ class ReportSaleOrderUndelivered(models.Model):
         ]
         domain += self._get_options_partner_domain(options)
         return domain
+
+    def open_document(self, options, params=None):
+        if not params:
+            params = {}
+
+        ctx = self.env.context.copy()
+        ctx.pop('id', '')
+
+        # Decode params
+        model = params.get('model', 'account.move.line')
+        report_line_id = params.get('id')
+        document = params.get('object', 'account.move')
+
+        # Redirection data
+        res_id = self._get_caret_option_target_id(report_line_id)
+        target = self._resolve_caret_option_document(model, res_id, document)
+        view_name = 'view_order_form'
+        module = 'sale'
+        if '.' in view_name:
+            module, view_name = view_name.split('.')
+
+        # Redirect
+        view_id = self.env['ir.model.data']._xmlid_lookup("%s.%s" % (module, view_name))[2]
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'views': [(view_id, 'form')],
+            'res_model': document,
+            'view_id': view_id,
+            'res_id': target.id,
+            'context': ctx,
+        }
