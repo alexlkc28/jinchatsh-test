@@ -12,8 +12,8 @@ import '@mail/widgets/form_renderer/form_renderer';
 /**
  * Display attachment preview on side of form view for large screen devices.
  *
- * To use this simply add div with class o_attachment_preview_last in format
- *     <div class="o_attachment_preview_last"/>
+ * To use this simply add div with class o_attachment_preview in format
+ *     <div class="o_attachment_preview"/>
  *
  * Some options can be passed to change its behavior:
  *     types: ['image', 'pdf']
@@ -21,7 +21,7 @@ import '@mail/widgets/form_renderer/form_renderer';
  *
  * For example, if you want to display only pdf type attachment and the latest
  * one then use:
- *     <div class="o_attachment_preview_last" options="{'types': ['pdf'], 'order': 'desc'}"/>
+ *     <div class="o_attachment_preview" options="{'types': ['pdf'], 'order': 'desc'}"/>
 **/
 
 FormRenderer.include({
@@ -53,7 +53,7 @@ FormRenderer.include({
         this._isChatterInFormSheetBg = false;
         this._onResizeWindow = _.debounce(this._onResizeWindow.bind(this), 200);
 
-        console.log('jinchatsh form render');
+        console.log('jinchatsh form_render');
     },
     /**
      * @override
@@ -149,19 +149,19 @@ FormRenderer.include({
     },
     /**
      * Overrides the function that renders the nodes to return the preview's $el
-     * for the `o_attachment_preview_last` div node.
+     * for the `o_attachment_preview` div node.
      *
      * @override
      */
     _renderNode: function (node) {
-        if (node.tag === 'div' && node.attrs.class === 'o_attachment_preview_last') {
+        if (node.tag === 'div' && node.attrs.class === 'o_attachment_preview') {
             if (this.attachmentViewer) {
                 if (this.attachmentPreviewResID !== this.state.res_id) {
                     this.attachmentViewer.destroy();
                     this.attachmentViewer = undefined;
                 }
             } else {
-                this.$attachmentPreview = $('<div>', {class: 'o_attachment_preview_last'});
+                this.$attachmentPreview = $('<div>', {class: 'o_attachment_preview'});
             }
             this._handleAttributes(this.$attachmentPreview, node);
             this._registerModifiers(node, this.state, this.$attachmentPreview);

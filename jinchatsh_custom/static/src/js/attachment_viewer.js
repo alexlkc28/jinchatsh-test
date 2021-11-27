@@ -25,6 +25,8 @@ var JinchatshAttachmentViewer = Widget.extend({
         this._super.apply(this, arguments);
         this.attachments = attachments;
         this._setActive();
+
+        console.log('jinchatsh attachment_viewer');
     },
     /**
      * Render attachment.
